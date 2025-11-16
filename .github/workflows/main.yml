@@ -24,7 +24,12 @@ jobs:
         run: mkdir -p testResults
 
       - name: run Postman collection
-        run: newman run store.collection.json -r htmlextra --reporter-htmlextra-export testResults/newmanReport.html --reporter-htmlextra-darkTheme
+        run: |
+          echo "Поточні файли:"
+          ls -la
+          echo "Вміст store.collection.json:"
+          cat store.collection.json || echo "Немає такого файлу!"
+          newman run store.collection.json -r htmlextra --reporter-htmlextra-export testResults/newmanReport.html --reporter-htmlextra-darkTheme
 
       - name: Output the run Details
         uses: actions/upload-artifact@v4
