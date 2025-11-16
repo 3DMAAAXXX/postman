@@ -28,8 +28,7 @@ jobs:
       - name: Start API server
         run: |
           cd mockApi
-          nohup npm start &
-        # Надаємо серверу час стартанути
+          nohup npm tern-on-api &
       - name: Wait for server
         run: |
           sleep 5
