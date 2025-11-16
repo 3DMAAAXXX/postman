@@ -22,7 +22,6 @@ jobs:
 
       - name: Install server dependencies
         run: |
-          cd mockApi
           npm install
     
       - name: Start API server
