@@ -33,7 +33,7 @@ jobs:
 
       - name: run Postman collection
         run: |
-          newman run store.collection.json -r htmlextra --reporter-htmlextra-export testResults/newmanReport.html --reporter-htmlextra-darkTheme
+          newman run store.collection.json -r htmlextra --reporter-htmlextra-export testResults/newmanReport.html --reporter-htmlextra-darkTheme > testResults/newmanReport1.html
 
       - name: Output the run Details
         uses: actions/upload-artifact@v4
