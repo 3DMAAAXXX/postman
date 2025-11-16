@@ -24,7 +24,7 @@ jobs:
         run: npm install
 
       - name: Start mock API
-        run: npm run tern-on-api &
+        run: cp mockApi/db_back_up.yaml mockApi/db_stage.yaml && npx yaml-server --hotReload=off --autoStart=off --port 3000 --database ./mockApi/db_stage.yaml &
         
       - name: Wait for mock API
         run: sleep 10
