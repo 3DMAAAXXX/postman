@@ -1,0 +1,35 @@
+name: Postman-Test
+on:
+  push:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+jobs:
+  test-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+
+      - name: Install newman
+        run: |
+          npm install -g newman
+          npm install -g newman-reporter-htmlextra
+
+      - name: Make directory for results
+        run: mkdir -p testResults
+
+      - name: run Postman colection
+        run: |
+          newman run store.collection.json -r htmlextra --reporter-htmlextra-export testResults/newmanReport.html --reporter-htmlextra-darkTheme > testResults/newmanReport1.html
+
+      - name: Output the run Details
+        uses: actions/upload-artifact@v2
+        with:
+          name: RunReports
+          path: testResults
