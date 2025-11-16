@@ -24,20 +24,15 @@ jobs:
         run: npm install
 
       - name: Start mock API
-        run: cp mockApi/db_back_up.yaml mockApi/db_stage.yaml && npx yaml-server --hotReload=off --autoStart=off --port 3000 --database ./mockApi/db_stage.yaml &
-        
-      - name: Wait for mock API
-        run: sleep 10
+        run: |
+          cp mockApi/db_back_up.yaml mockApi/db_stage.yaml
+          npx yaml-server --hotReload=off --autoStart=off --port 3000 --database ./mockApi/db_stage.yaml &
 
       - name: Make directory for results
         run: mkdir -p testResults
 
       - name: run Postman collection
         run: |
-          echo "Поточні файли:"
-          ls -la
-          echo "Вміст store.collection.json:"
-          cat store.collection.json || echo "Немає такого файлу!"
           newman run store.collection.json -r htmlextra --reporter-htmlextra-export testResults/newmanReport.html --reporter-htmlextra-darkTheme
 
       - name: Output the run Details
