@@ -27,7 +27,6 @@ jobs:
     
       - name: Start API server
         run: |
-          cd mockApi
           nohup npm tern-on-api &
       - name: Wait for server
         run: |
