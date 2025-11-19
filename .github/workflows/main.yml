@@ -33,6 +33,7 @@ jobs:
 
       - name: run Postman collection
         run: |
+          sleep 10
           newman run store.collection.json -r htmlextra --reporter-htmlextra-export testResults/newmanReport.html --reporter-htmlextra-darkTheme > testResults/newmanReport1.html
 
       - name: Output the run Details
