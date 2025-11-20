@@ -18,11 +18,7 @@ jobs:
       - name: Install newman
         run: |
           npm install -g newman
-          newman run store.collection.json \
-          -r htmlextra \
-          --reporter-htmlextra-export testResults/newmanReport.html \
-          --reporter-htmlextra-darkTheme \
-          > testResults/newmanReport1.html
+          npm install -g newman-reporter-htmlextra
           
 
       - name: Install dependencies
@@ -39,7 +35,11 @@ jobs:
       - name: run Postman collection
         run: |
           sleep 10
-          newman run store.collection.json
+          newman run store.collection.json \
+          -r htmlextra \
+          --reporter-htmlextra-export testResults/newmanReport.html \
+          --reporter-htmlextra-darkTheme \
+          > testResults/newmanReport1.html
 
       - name: Output the run Details
         uses: actions/upload-artifact@v4
