@@ -65,7 +65,7 @@
 									"pm.test(\"Property value\", function() {\r",
 									"    pm.expect(jsonData.id).to.eql(3);\r",
 									"    pm.expect(jsonData.name).to.eql(\"apple\");\r",
-									"    pm.expect(jsonData.price).to.eql(155);\r",
+									"    pm.expect(jsonData.price).to.eql(30);\r",
 									"    pm.expect(jsonData.sku).to.eql(123321123);\r",
 									"    pm.expect(jsonData.description).to.eql(\"changed description\");\r",
 									"});\r",
