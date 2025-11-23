@@ -4,43 +4,50 @@
 	"values": [
 		{
 			"key": "baseUrl",
-			"value": "",
+			"value": "http://localhost:3000/users",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "nameValueArray",
-			"value": "",
+			"value": "['id','name','sku']",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "id",
-			"value": "",
+			"value": "3",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "name",
-			"value": "",
+			"value": "order2",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "sku",
-			"value": "",
+			"value": "999921312423312",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "schema",
-			"value": "",
+			"value": {
+			    "id": "number",
+			    "name": "string",
+			    "sku": "number"
+			},
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "body",
-			"value": "",
+			"value": {
+			    "name": "order6",
+			    "sku": 12342544561256765
+			},
 			"type": "default",
 			"enabled": true
 		}
