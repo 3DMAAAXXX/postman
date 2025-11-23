@@ -6,7 +6,13 @@ on:
 
 jobs:
   test-api:
+    name: Test ${{ matrix.environment }}
     runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        environment: [products.postman_environment, orders.postman_environment, users.postman_environment]  # ⬅️ Список оточень
+      fail-fast: false
     steps:
       - uses: actions/checkout@v4
 
@@ -36,10 +42,11 @@ jobs:
         run: |
           sleep 10
           newman run NewStore.postman_collection.json \
-          # -r htmlextra \
-          # --reporter-htmlextra-export testResults/newmanReport.html \
-          # --reporter-htmlextra-darkTheme \
-          # > testResults/newmanReport1.html
+          -e postman/environments/${{ matrix.environment }}.json \
+          -r htmlextra \
+          --reporter-htmlextra-export testResults/newmanReport.html \
+          --reporter-htmlextra-darkTheme \
+          > testResults/newmanReport1.html
 
       - name: Output the run Details
         uses: actions/upload-artifact@v4
