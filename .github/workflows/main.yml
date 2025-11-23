@@ -36,10 +36,10 @@ jobs:
         run: |
           sleep 10
           newman run NewStore.postman_collection.json \
-          -r htmlextra \
-          --reporter-htmlextra-export testResults/newmanReport.html \
-          --reporter-htmlextra-darkTheme \
-          > testResults/newmanReport1.html
+          # -r htmlextra \
+          # --reporter-htmlextra-export testResults/newmanReport.html \
+          # --reporter-htmlextra-darkTheme \
+          # > testResults/newmanReport1.html
 
       - name: Output the run Details
         uses: actions/upload-artifact@v4
