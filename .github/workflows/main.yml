@@ -1,0 +1,55 @@
+name: Postman-Test
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  test-api:
+    name: Test ${{ matrix.environment }}
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        environment: [products.postman_environment, orders.postman_environment, users.postman_environment]  # ⬅️ Список оточень
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.x"
+
+      - name: Install newman
+        run: |
+          npm install -g newman
+          npm install -g newman-reporter-htmlextra
+          
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Start mock API
+        run: |
+          cp mockApi/db_back_up.yaml mockApi/db_stage.yaml
+          npx yaml-server --hotReload=off --autoStart=off --port 3000 --database ./mockApi/db_stage.yaml &
+
+      - name: Make directory for results
+        run: mkdir -p testResults
+
+      - name: run Postman collection
+        run: |
+          sleep 10
+          newman run NewStore.postman_collection.json \
+          -e postman/environments/${{ matrix.environment }}.json \
+          -r htmlextra \
+          --reporter-htmlextra-export testResults/newmanReport.html \
+          --reporter-htmlextra-darkTheme \
+          > testResults/newmanReport1.html
+
+      - name: Output the run Details
+        uses: actions/upload-artifact@v4
+        with:
+          name: RunReports
+          path: testResults
