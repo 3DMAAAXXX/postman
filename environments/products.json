@@ -4,55 +4,55 @@
 	"values": [
 		{
 			"key": "baseUrl",
-			"value": "",
+			"value": "http://localhost:3000/products",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "nameValueArray",
-			"value": "",
+			"value": "[\"id\",\"name\",\"price\",\"sku\",\"description\"]",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "id",
-			"value": "",
+			"value": "3",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "name",
-			"value": "",
+			"value": "apple",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "price",
-			"value": "",
+			"value": "30",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "sku",
-			"value": "",
+			"value": "999921312423312",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "description",
-			"value": "",
+			"value": "awesome",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "schema",
-			"value": "",
+			"value": "{\"id\":\"number\",\"name\":\"string\",\"price\":\"number\",\"sku\":\"number\",\"description\":\"string\"}",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "body",
-			"value": "",
+			"value": "{\"name\":\"orange\",\"price\":8,\"sku\":123321123,\"description\":\"wouh\"}",
 			"type": "default",
 			"enabled": true
 		}
