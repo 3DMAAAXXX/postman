@@ -11,7 +11,7 @@ jobs:
     
     strategy:
       matrix:
-        environment: [products.postman_environment, orders.postman_environment, users.postman_environment]  # ⬅️ Список оточень
+        environment: [products.postman_environment, orders, users.postman_environment]  # ⬅️ Список оточень
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
