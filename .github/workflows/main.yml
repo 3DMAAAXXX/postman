@@ -42,7 +42,7 @@ jobs:
         run: |
           sleep 10
           newman run NewStore.postman_collection.json \
-          -e postman/environments/${{ matrix.environment }}.json \
+          -e environments/${{ matrix.environment }}.json \
           -r htmlextra \
           --reporter-htmlextra-export testResults/newmanReport.html \
           --reporter-htmlextra-darkTheme \
