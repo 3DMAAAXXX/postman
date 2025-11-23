@@ -10,7 +10,7 @@
 		},
 		{
 			"key": "nameValueArray",
-			"value": ['id','name','sku'],
+			"value": ["id", "name", "sku"],
 			"type": "default",
 			"enabled": true
 		},
