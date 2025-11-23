@@ -4,79 +4,79 @@
 	"values": [
 		{
 			"key": "baseUrl",
-			"value": "",
+			"value": "http://localhost:3000/users",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "nameValueArray",
-			"value": "",
+			"value": "[\"id\",\"firstName\",\"lastName\",\"email\",\"dateOfBirth\",\"emailVerified\",\"signUpDate\",\"status\",\"level\"]",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "id",
-			"value": "",
+			"value": "3",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "firstName",
-			"value": "",
+			"value": "Joe",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "lastName",
-			"value": "",
+			"value": "Smith",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "email",
-			"value": "",
+			"value": "joe.smith@gmail.com",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "dateOfBirth",
-			"value": "",
+			"value": "1997-10-31",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "emailVerified",
-			"value": "",
+			"value": true,
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "signUpDate",
-			"value": "",
+			"value": "2019-08-24",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "status",
-			"value": "",
+			"value": "active",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "level",
-			"value": "",
+			"value": "consumer",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "schema",
-			"value": "",
+			"value": "{\"id\":\"number\",\"firstName\":\"string\",\"lastName\":\"string\",\"email\":\"string\",\"dateOfBirth\":\"string\",\"emailVerified\":\"boolean\",\"signUpDate\":\"string\",\"status\":\"string\",\"level\":\"string\"}",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "body",
-			"value": "",
+			"value": "{\"firstName\":\"Dream\",\"lastName\":\"Real\",\"email\":\"dream.real@gmail.com\",\"dateOfBirth\":\"2001-10-99\",\"emailVerified\":true,\"signUpDate\":\"2019-08-24\",\"status\":\"active",\"level\":\"lord\"}",
 			"type": "default",
 			"enabled": true
 		}
