@@ -43,12 +43,12 @@ jobs:
           newman run NewStore.postman_collection.json \
           -e environments/${{ matrix.environment }}.json \
            -r htmlextra \
-           --reporter-htmlextra-export testResults/newmanReport${{ matrix.environment }}.html \
+           --reporter-htmlextra-export testResults/newmanReport.html \
            --reporter-htmlextra-darkTheme \
-           > testResults/newmanReport${{ matrix.environment }}1.html
+           > testResults/newmanReport1.html
 
       - name: Output the run Details
         uses: actions/upload-artifact@v4
         with:
-          name: RunReports
+          name: RunReports-${{ matrix.environment }}
           path: testResults
