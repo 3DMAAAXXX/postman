@@ -47,5 +47,5 @@ jobs:
       - name: Output the run Details
         uses: actions/upload-artifact@v4
         with:
-          name: RunReports-${{ matrix.environment }}
+          name: newmanReport-${{ matrix.environment }}.html
           path: testResults
