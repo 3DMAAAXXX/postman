@@ -50,7 +50,7 @@ jobs:
            --reporter-htmlextra-darkTheme \
            > testResults/newmanReport1.html
       - name: Output the run Details
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: RunReports-${{ matrix.environment }}
           path: testResults
