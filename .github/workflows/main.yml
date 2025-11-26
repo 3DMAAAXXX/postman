@@ -49,28 +49,25 @@ jobs:
           --reporter-htmlextra-title "Report for ${{ matrix.environment }}" \
           --reporter-htmlextra-darkTheme
           
-      # Зберігаємо кожен звіт з унікальним ім'ям папки
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.environment }} # Ім'я артефакту = назва середовища
+          name: ${{ matrix.environment }}
           path: testResults/report.html
 
   generate-combined-report:
     needs: test-api
-    if: always() # Виконувати, навіть якщо тести впали
+    if: always()
     runs-on: ubuntu-latest
     steps:
       - name: Create Public Folder
         run: mkdir -p public
 
-      # Завантажуємо ВСІ звіти в папку public
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
           path: public
 
-      # Цей крок автоматично створює один файл меню (index.html)
       - name: Generate Dashboard
         run: |
           echo "<!DOCTYPE html>
