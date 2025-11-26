@@ -3,6 +3,11 @@ on:
   push:
     branches: [ "main" ]
   workflow_dispatch:
+  
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   test-api:
@@ -45,7 +50,7 @@ jobs:
            --reporter-htmlextra-darkTheme \
            > testResults/newmanReport1.html
       - name: Output the run Details
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
           name: RunReports-${{ matrix.environment }}
           path: testResults
