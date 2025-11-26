@@ -48,6 +48,7 @@ jobs:
            > testResults/newmanReport1.html
 
       - name: Output the run Details
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: RunReports-${{ matrix.environment }}
