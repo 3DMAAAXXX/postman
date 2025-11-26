@@ -1,31 +1,29 @@
-name: Postman-Test
+name: Postman-Teston
+
 on:
   push:
     branches: [ "main" ]
   workflow_dispatch:
-  
+
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 jobs:
   test-api:
     name: Test ${{ matrix.environment }}
     runs-on: ubuntu-latest
-    
     strategy:
       matrix:
         environment: [products, orders, users]
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
-
+      
       - name: Install Node
         uses: actions/setup-node@v4
         with:
           node-version: "18.x"
-
+          
       - name: Install newman
         run: |
           npm install -g newman
@@ -33,75 +31,51 @@ jobs:
           
       - name: Install dependencies
         run: npm install
-
+        
       - name: Start mock API
         run: |
           cp mockApi/db_back_up.yaml mockApi/db_stage.yaml
           npx yaml-server --hotReload=off --autoStart=off --port 3000 --database ./mockApi/db_stage.yaml &
+          
       - name: Make directory for results
         run: mkdir -p testResults
-
+        
       - name: run Postman collection
         run: |
           newman run NewStore.postman_collection.json \
           -e environments/${{ matrix.environment }}.json \
-           -r htmlextra \
-           --reporter-htmlextra-export testResults/newmanReport.html \
-           --reporter-htmlextra-darkTheme \
-           > testResults/newmanReport1.html
+          -r htmlextra \
+          --reporter-htmlextra-export testResults/index.html \
+          --reporter-htmlextra-darkTheme
+          
+      # Ми називаємо артефакт "report-<назва>", щоб потім створилась така папка
       - name: Output the run Details
         uses: actions/upload-artifact@v4
         with:
-          name: RunReports-${{ matrix.environment }}
-          path: testResults
-          
-  deploy:
-      name: Deploy to GitHub Pages
-      needs: test-api
-      runs-on: ubuntu-latest
-      if: always()
-      
-      steps:
-        - name: Download all artifacts
-          uses: actions/download-artifact@v4
-          with:
-            path: all-reports
-        
-        - name: Prepare reports directory
-          run: |
-            mkdir -p reports
-            cp -r all-reports/RunReports-products/* reports/ || true
-            cp -r all-reports/RunReports-orders/* reports/ || true
-            cp -r all-reports/RunReports-users/* reports/ || true
-        
-        - name: Create index page
-          run: |
-            cat > reports/index.html << 'EOF'
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <title>Test Reports</title>
-                <style>
-                    body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
-                    h1 { color: #333; }
-                    .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-                    .report-link { display: block; padding: 15px; margin: 15px 0; background: #0066cc; text-decoration: none; color: white; border-radius: 5px; text-align: center; font-weight: bold; }
-                    .report-link:hover { background: #0052a3; }
-                </style>
-            </head>
-            <body>
-                <div class="container">
-                    <h1>Newman Test Reports</h1>
-                    <a class="report-link" href="products/newmanReport.html">📦 Products Tests</a>
-                    <a class="report-link" href="orders/newmanReport.html">🛒 Orders Tests</a>
-                    <a class="report-link" href="users/newmanReport.html">👤 Users Tests</a>
-                </div>
-            </body>
-            </html>
-            EOF
-        
-        - name: Deploy to GitHub Pages
-          uses: peaceiris/actions-gh-pages@v3
-          with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            publish_dir: ./reports
+          name: report-${{ matrix.environment }}
+          path: testResults/index.html
+
+  deploy-reports:
+    needs: test-api
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Створюємо папку для публікації
+      - name: Create Public Folder
+        run: mkdir -p public
+
+      # Завантажуємо всі артефакти. 
+      # В папці public з'являться підпапки: report-products, report-orders, report-users
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: public
+
+      # Публікуємо папку public як є
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
