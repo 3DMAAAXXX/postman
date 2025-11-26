@@ -26,7 +26,6 @@ jobs:
           npm install -g newman
           npm install -g newman-reporter-htmlextra
           
-
       - name: Install dependencies
         run: npm install
 
@@ -34,7 +33,6 @@ jobs:
         run: |
           cp mockApi/db_back_up.yaml mockApi/db_stage.yaml
           npx yaml-server --hotReload=off --autoStart=off --port 3000 --database ./mockApi/db_stage.yaml &
-
       - name: Make directory for results
         run: mkdir -p testResults
 
@@ -46,57 +44,8 @@ jobs:
            --reporter-htmlextra-export testResults/newmanReport.html \
            --reporter-htmlextra-darkTheme \
            > testResults/newmanReport1.html
-
       - name: Output the run Details
-        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: RunReports-${{ matrix.environment }}
           path: testResults
-  deploy:
-    name: Deploy to GitHub Pages
-    needs: test-api
-    runs-on: ubuntu-latest
-    if: always()
-    
-    steps:
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: all-reports
-      
-      - name: Prepare reports directory
-        run: |
-          mkdir -p reports
-          cp -r all-reports/RunReports-products/* reports/products/ || true
-          cp -r all-reports/RunReports-orders/* reports/orders/ || true
-          cp -r all-reports/RunReports-users/* reports/users/ || true
-      
-      - name: Create index page
-        run: |
-          cat > reports/index.html << 'EOF'
-          <!DOCTYPE html>
-          <html>
-          <head>
-              <title>Test Reports</title>
-              <style>
-                  body { font-family: Arial, sans-serif; margin: 40px; }
-                  h1 { color: #333; }
-                  .report-link { display: block; padding: 10px; margin: 10px 0; background: #f0f0f0; text-decoration: none; color: #0066cc; border-radius: 5px; }
-                  .report-link:hover { background: #e0e0e0; }
-              </style>
-          </head>
-          <body>
-              <h1>Newman Test Reports</h1>
-              <a class="report-link" href="products/newmanReport.html">Products Tests</a>
-              <a class="report-link" href="orders/newmanReport.html">Orders Tests</a>
-              <a class="report-link" href="users/newmanReport.html">Users Tests</a>
-          </body>
-          </html>
-          EOF
-      
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./reports
