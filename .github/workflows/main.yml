@@ -54,8 +54,53 @@ jobs:
         with:
           name: RunReports-${{ matrix.environment }}
           path: testResults
+        deploy:
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./reports
+        needs: test-api
+        runs-on: ubuntu-latest
+        if: always()
+      
+        steps:
+          - name: Download all artifacts
+            uses: actions/download-artifact@v4
+            with:
+              path: all-reports
+          
+          - name: Prepare reports directory
+            run: |
+              mkdir -p reports
+              cp -r all-reports/RunReports-products/* reports/ || true
+              cp -r all-reports/RunReports-orders/* reports/ || true
+              cp -r all-reports/RunReports-users/* reports/ || true
+          
+          - name: Create index page
+            run: |
+              cat > reports/index.html << 'EOF'
+              <!DOCTYPE html>
+              <html>
+              <head>
+                  <title>Test Reports</title>
+                  <style>
+                      body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+                      h1 { color: #333; }
+                      .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+                      .report-link { display: block; padding: 15px; margin: 15px 0; background: #0066cc; text-decoration: none; color: white; border-radius: 5px; text-align: center; font-weight: bold; }
+                      .report-link:hover { background: #0052a3; }
+                  </style>
+              </head>
+              <body>
+                  <div class="container">
+                      <h1>Newman Test Reports</h1>
+                      <a class="report-link" href="products/newmanReport.html">📦 Products Tests</a>
+                      <a class="report-link" href="orders/newmanReport.html">🛒 Orders Tests</a>
+                      <a class="report-link" href="users/newmanReport.html">👤 Users Tests</a>
+                  </div>
+              </body>
+              </html>
+              EOF
+          
+          - name: Deploy to GitHub Pages
+            uses: peaceiris/actions-gh-pages@v3
+            with:
+              github_token: ${{ secrets.GITHUB_TOKEN }}
+              publish_dir: ./reports
